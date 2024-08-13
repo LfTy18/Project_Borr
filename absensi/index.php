@@ -2,7 +2,7 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
-$sql = "SELECT absensi.id_kehadiran, siswa.nama_siswa, absensi.tanggal, absensi.status_absensi 
+$sql = "SELECT absensi.id_absensi, siswa.nama_siswa, absensi.tanggal, absensi.status 
         FROM absensi 
         JOIN siswa ON absensi.id_siswa = siswa.id_siswa";
 
@@ -26,13 +26,13 @@ $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>
-                    <td>{$row['id_kehadiran']}</td>
+                    <td>{$row['id_absensi']}</td>
                     <td>{$row['nama_siswa']}</td>
                     <td>{$row['tanggal']}</td>
-                    <td>{$row['status_absensi']}</td>
+                    <td>{$row['status']}</td>
                     <td>
-                        <a href='update.php?id={$row['id_kehadiran']}' class='btn btn-warning'>Edit</a>
-                        <a href='delete.php?id={$row['id_kehadiran']}' class='btn btn-danger'>Hapus</a>
+                        <a href='update.php?id={$row['id_absensi']}' class='btn btn-warning'>Edit</a>
+                        <a href='delete.php?id={$row['id_absensi']}' class='btn btn-danger'>Hapus</a>
                     </td>
                 </tr>";
             }

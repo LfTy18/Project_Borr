@@ -2,18 +2,13 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
-$id_kehadiran = $_GET['id'];
+$id_absensi = $_GET['id'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_siswa = $_POST['id_siswa'];
     $tanggal = $_POST['tanggal'];
-    $status_absensi = $_POST['status_absensi'];
+    $status = $_POST['status'];
 
-    $sql = "UPDATE absensi SET 
-            id_siswa='$id_siswa', 
-            tanggal='$tanggal', 
-            status_absensi='$status_absensi'
-            WHERE id_kehadiran=$id_kehadiran";
+    $sql = "UPDATE absensi SET tanggal='$tanggal', status='$status' WHERE id_absensi=$id_absensi";
 
     if ($conn->query($sql) === TRUE) {
         header("Location: index.php");
@@ -22,16 +17,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$sql_absensi = "SELECT * FROM absensi WHERE id_kehadiran=$id_kehadiran";
+$sql_absensi = "SELECT * FROM absensi WHERE id_absensi=$id_absensi";
 $result_absensi = $conn->query($sql_absensi);
 $absensi = $result_absensi->fetch_assoc();
-
-$siswa_sql = "SELECT id_siswa, nama_siswa FROM siswa";
-$siswa_result = $conn->query($siswa_sql);
 ?>
 
 <h2>Edit Absensi</h2>
-<form action="update.php?id=<?php echo $id_kehadiran; ?>" method="post">
+<form action="update.php?id=<?php echo $id_absensi; ?>" method="post">
     <div class="mb-3">
         <label for="id_siswa" class="form-label">Nama Siswa</label>
         <select class="form-control" id="id_siswa" name="id_siswa" required>

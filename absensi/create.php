@@ -2,43 +2,21 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
-// Ambil data siswa dari database untuk mengisi dropdown
-$siswa_query = "SELECT id_siswa, nama_siswa FROM siswa";
-$siswa_result = $conn->query($siswa_query);
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Ambil nilai dari form
-    $id_siswa = isset($_POST['id_siswa']) ? $_POST['id_siswa'] : null;
-    $tanggal = isset($_POST['tanggal']) ? $_POST['tanggal'] : null;
-    $status_kehadiran = isset($_POST['status_kehadiran']) ? $_POST['status_kehadiran'] : null;
+    $id_siswa = $_POST['id_siswa'];
+    $tanggal = $_POST['tanggal'];
+    $status = $_POST['status'];
 
-    // Validasi input
-    if ($id_siswa && $tanggal && $status_kehadiran !== null) {
-        // Query untuk memasukkan data ke dalam tabel absensi
-        $sql = "INSERT INTO absensi (id_siswa, tanggal, status_kehadiran) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO absensi (id_siswa, tanggal, status) 
+            VALUES ('$id_siswa', '$tanggal', '$status')";
 
-        // Persiapkan statement
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("isi", $id_siswa, $tanggal, $status_kehadiran);
-
-        // Eksekusi statement
-        if ($stmt->execute()) {
-            echo "Data absensi berhasil disimpan.";
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-
-        // Tutup statement
-        $stmt->close();
+    if ($conn->query($sql) === TRUE) {
+        header("Location: index.php");
     } else {
-        echo "Data tidak lengkap.";
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
-
-// Tutup koneksi
-$conn->close();
 ?>
-
 <div class="container">
     <h2>Tambah Absensi</h2>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -61,7 +39,7 @@ $conn->close();
         </div>
         <div class="mb-3">
         <label for="status" class="form-label">Status</label>
-        <select class="form-control" id="status_absensi" name="status_absensi" required>
+        <select class="form-control" id="status" name="status" required>
             <option value="Hadir">Hadir</option>
             <option value="Sakit">Sakit</option>
             <option value="Izin">Izin</option>
