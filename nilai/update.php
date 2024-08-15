@@ -2,6 +2,7 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
+
 $id_nilai = $_GET['id'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

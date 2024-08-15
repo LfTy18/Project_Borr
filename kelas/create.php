@@ -2,6 +2,7 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_kelas = $_POST['nama_kelas'];
     

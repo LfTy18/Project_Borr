@@ -2,6 +2,7 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
+//Memanggil Database//
 $sql = "SELECT * FROM guru";
 $result = $conn->query($sql);
 ?>

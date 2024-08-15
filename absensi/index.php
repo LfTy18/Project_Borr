@@ -2,6 +2,7 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
+
 $sql = "SELECT absensi.id_absensi, siswa.nama_siswa, absensi.tanggal, absensi.status 
         FROM absensi 
         JOIN siswa ON absensi.id_siswa = siswa.id_siswa";

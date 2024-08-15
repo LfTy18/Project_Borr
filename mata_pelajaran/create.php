@@ -3,7 +3,7 @@ include '../includes/header.php';
 include '../includes/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nama_mata_pelajaran = $_POST['nama_mapel'];
+    $nama_mata_pelajaran = $_POST['nama_mata_pelajaran'];
     $id_guru = $_POST['id_guru'];
 
     // Validasi id_guru
@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $guru_check_result = $conn->query($guru_check_sql);
 
         if ($guru_check_result->num_rows > 0) {   
-        $sql = "INSERT INTO mata_pelajaran (nama_mapel, id_guru) VALUES ('$nama_mata_pelajaran', '$id_guru')";
+        $sql = "INSERT INTO mata_pelajaran (nama_mata_pelajaran, id_guru) VALUES ('$nama_mata_pelajaran', '$id_guru')";
 
         if ($conn->query($sql) === TRUE) {
             header("Location: index.php");
@@ -30,8 +30,8 @@ $guru_result = $conn->query($guru_sql);
 <h2>Tambah Mata Pelajaran</h2>
 <form action="create.php" method="post">
     <div class="mb-3">
-        <label for="nama_mapel" class="form-label">Nama Mata Pelajaran</label>
-        <input type="text" class="form-control" id="nama_mapel" name="nama_mapel" required>
+        <label for="nama_mata_pelajaran" class="form-label">Nama Mata Pelajaran</label>
+        <input type="text" class="form-control" id="nama_mata_pelajaran" name="nama_mata_pelajaran" required>
     </div>
     <div class="mb-3">
         <label for="id_guru" class="form-label">Guru Pengampu</label>

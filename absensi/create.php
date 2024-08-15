@@ -2,6 +2,9 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
+$siswa_query = "SELECT id_siswa, nama_siswa FROM siswa";
+$siswa_result = $conn->query($siswa_query);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_siswa = $_POST['id_siswa'];
     $tanggal = $_POST['tanggal'];

@@ -2,6 +2,7 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
+
 $sql = "SELECT * FROM kelas";
 $result = $conn->query($sql);
 ?>

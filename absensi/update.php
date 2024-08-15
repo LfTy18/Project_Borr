@@ -2,6 +2,9 @@
 include '../includes/header.php';
 include '../includes/db.php';
 
+$siswa_query = "SELECT id_siswa, nama_siswa FROM siswa";
+$siswa_result = $conn->query($siswa_query);
+
 $id_absensi = $_GET['id'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -39,11 +42,11 @@ $absensi = $result_absensi->fetch_assoc();
     </div>
     <div class="mb-3">
         <label for="status" class="form-label">Status</label>
-        <select class="form-control" id="status_absensi" name="status_absensi" required>
-            <option value="Hadir" <?php echo $absensi['status_absensi'] == 'Hadir' ? 'selected' : ''; ?>>Hadir</option>
-            <option value="Sakit" <?php echo $absensi['status_absensi'] == 'Sakit' ? 'selected' : ''; ?>>Sakit</option>
-            <option value="Izin" <?php echo $absensi['status_absensi'] == 'Izin' ? 'selected' : ''; ?>>Izin</option>
-            <option value="Alpa" <?php echo $absensi['status_absensi'] == 'Alpa' ? 'selected' : ''; ?>>Alpa</option>
+        <select class="form-control" id="status" name="status" required>
+            <option value="Hadir" <?php echo $absensi['status'] == 'Hadir' ? 'selected' : ''; ?>>Hadir</option>
+            <option value="Sakit" <?php echo $absensi['status'] == 'Sakit' ? 'selected' : ''; ?>>Sakit</option>
+            <option value="Izin" <?php echo $absensi['status'] == 'Izin' ? 'selected' : ''; ?>>Izin</option>
+            <option value="Alpa" <?php echo $absensi['status'] == 'Alpa' ? 'selected' : ''; ?>>Alpa</option>
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Update</button>

@@ -5,13 +5,13 @@ include '../includes/db.php';
 $id_mata_pelajaran = $_GET['id'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nama_mapel = $_POST['nama_mapel'];
+    $nama_mata_pelajaran = $_POST['nama_mata_pelajaran'];
     $id_guru = $id_guru['$id_guru'];
 
     $sql = "UPDATE mata_pelajaran SET 
-            nama_mapel='$nama_mapel' ,
+            nama_mata_pelajaran='$nama_mata_pelajaran' ,
             id_guru='$id_guru'
-            WHERE id_mapel=$id_mapel";
+            WHERE id_mata_pelajaran=$id_mata_pelajaran";
 
     if ($conn->query($sql) === TRUE) {
         header("Location: index.php");
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$sql_mata_pelajaran = "SELECT * FROM mata_pelajaran WHERE id_mapel=$id_mapel";
+$sql_mata_pelajaran = "SELECT * FROM mata_pelajaran WHERE id_mata_pelajaran=$id_mata_pelajaran";
 $result_mata_pelajaran = $conn->query($sql_mata_pelajaran);
 $mata_pelajaran = $result_mata_pelajaran->fetch_assoc();
 
@@ -30,10 +30,10 @@ $guru_result = $conn->query($guru_sql);
 
 
 <h2>Edit Mata Pelajaran</h2>
-<form action="update.php?id=<?php echo $id_mapel; ?>" method="post">
+<form action="update.php?id=<?php echo $id_mata_pelajaran; ?>" method="post">
     <div class="mb-3">
-        <label for="nama_mapel" class="form-label">Nama Mata Pelajaran</label>
-        <input type="text" class="form-control" id="nama_mapel" name="nama_mapel" value="<?php echo $mata_pelajaran['nama_mapel']; ?>" required>
+        <label for="nama_mata_pelajaran" class="form-label">Nama Mata Pelajaran</label>
+        <input type="text" class="form-control" id="nama_mata_pelajaran" name="nama_mata_pelajaran" value="<?php echo $mata_pelajaran['nama_mata_pelajaran']; ?>" required>
     </div>
     <div class="mb-3">
         <label for="id_guru" class="form-label">Guru Pengampu</label>

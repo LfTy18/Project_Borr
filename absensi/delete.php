@@ -1,9 +1,9 @@
 <?php
 include '../includes/db.php';
 
-$id_kehadiran = $_GET['id'];
+$id_absensi = $_GET['id'];
 
-$sql = "DELETE FROM absensi WHERE id_kehadiran=$id_kehadiran";
+$sql = "DELETE FROM absensi WHERE id_absensi=$id_absensi";
 
 if ($conn->query($sql) === TRUE) {
     header("Location: index.php");

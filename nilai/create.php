@@ -6,58 +6,29 @@ include '../includes/db.php';
 $siswa_query = "SELECT id_siswa, nama_siswa FROM siswa";
 $siswa_result = $conn->query($siswa_query);
 
-$mapel_query = "SELECT id_mapel, nama_mapel FROM mata_pelajaran";
-$mapel_result = $conn->query($mapel_query);
+$mata_pelajaran_query = "SELECT id_mata_pelajaran, nama_mata_pelajaran FROM mata_pelajaran";
+$mata_pelajaran_result = $conn->query($mata_pelajaran_query);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil nilai dari form
     $id_siswa = isset($_POST['id_siswa']) ? $_POST['id_siswa'] : null;
-    $id_mapel = isset($_POST['id_mapel']) ? $_POST['id_mapel'] : null;
+    $id_mata_pelajaran = isset($_POST['id_mata_pelajaran']) ? $_POST['id_mata_pelajaran'] : null;
     $tugas = isset($_POST['tugas']) ? $_POST['tugas'] : null;
     $ulangan_harian = isset($_POST['ulangan_harian']) ? $_POST['ulangan_harian'] : null;
     $uts = isset($_POST['uts']) ? $_POST['uts'] : null;
     $uas = isset($_POST['uas']) ? $_POST['uas'] : null;
-
-    // Validasi input
-    if ($id_siswa && $id_mapel && $tugas !== null && $ulangan_harian !== null && $uts !== null && $uas !== null) {
-        // Ambil nilai kehadiran dari tabel absensi
-        $kehadiran_query = "SELECT AVG(status_absensi) as nilai_kehadiran FROM absensi WHERE id_siswa = ? AND id_mapel = ?";
-        $stmt_kehadiran = $conn->prepare($kehadiran_query);
-        $stmt_kehadiran->bind_param("ii", $id_siswa, $id_mapel);
-        $stmt_kehadiran->execute();
-        $result_kehadiran = $stmt_kehadiran->get_result();
-        $nilai_kehadiran = $result_kehadiran->fetch_assoc()['nilai_kehadiran'];
-        $stmt_kehadiran->close();
-
-        // Jika nilai kehadiran tidak ditemukan, beri nilai default 0
-        if ($nilai_kehadiran === null) {
-            $nilai_kehadiran = 0;
-        }
-
-        // Query untuk memasukkan data ke dalam tabel nilai
-        $sql = "INSERT INTO nilai (id_siswa, id_mapel, nilai_kehadiran, tugas, ulangan_harian, uts, uas)
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        // Persiapkan statement
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iiiiiii", $id_siswa, $id_mapel, $nilai_kehadiran, $tugas, $ulangan_harian, $uts, $uas);
+    
+    // Query untuk memasukkan data ke dalam tabel nilai
+    $sql = "INSERT INTO nilai (id_siswa, id_mata_pelajaran, tugas, ulangan_harian, uts, uas)
+            VALUES ('$id_siswa', '$id_mata_pelajaran', '$tugas', '$ulangan_harian', '$uts', '$uas')";
 
         // Eksekusi statement
-        if ($stmt->execute()) {
-            echo "Data nilai berhasil disimpan.";
+        if ($conn->query($sql) === TRUE) {
+           header("Location: index.php");
         } else {
-            echo "Error: " . $stmt->error;
+            echo "Error: " . $sql . "<br>" . $conn->error;
         }
-
-        // Tutup statement
-        $stmt->close();
-    } else {
-        echo "Data tidak lengkap.";
-    }
 }
-
-// Tutup koneksi
-$conn->close();
 ?>
 
 <div class="container">
@@ -77,13 +48,13 @@ $conn->close();
             </select>
         </div>
         <div class="mb-3">
-            <label for="id_mapel" class="form-label">Mata Pelajaran</label>
-            <select class="form-select" id="id_mapel" name="id_mapel" required>
+            <label for="id_mata_pelajaran" class="form-label">Mata Pelajaran</label>
+            <select class="form-select" id="id_mata_pelajaran" name="id_mata_pelajaran" required>
                 <option value="">Pilih Mata Pelajaran</option>
                 <?php
-                if ($mapel_result->num_rows > 0) {
-                    while ($row = $mapel_result->fetch_assoc()) {
-                        echo "<option value='" . $row['id_mapel'] . "'>" . $row['nama_mapel'] . "</option>";
+                if ($mata_pelajaran_result->num_rows > 0) {
+                    while ($row = $mata_pelajaran_result->fetch_assoc()) {
+                        echo "<option value='" . $row['id_mata_pelajaran'] . "'>" . $row['nama_mata_pelajaran'] . "</option>";
                     }
                 }
                 ?>
